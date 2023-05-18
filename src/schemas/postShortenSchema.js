@@ -1,5 +1,5 @@
 import Joi from "joi";
 
 export const postShortenSchema=Joi.object({
-    url:Joi.string().link('#person').required()
+    url:Joi.link('#person').required()
 })
