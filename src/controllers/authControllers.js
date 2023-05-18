@@ -13,6 +13,7 @@ export async function signIn(req, res) {
         if (!senhaCorreta) return res.status(401).send("email e/ou senha incorretos")
 
         const token = uuid()
+        await db.query(`insert into sessions ("userId",token) values();`,[usuario.rows[0].id,token])
         res.status(200).send({token})
     } catch (err) {
         res.status(500).send(err.message)
