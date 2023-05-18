@@ -10,6 +10,7 @@ export async function postShorten(req,res){
         await db.query(`insert into urls ("shortUrl",url) values($1,$2);`,[random,url])
         const result=await db.query(`select * from urls where url=$1;`,[url])
         delete result.rows[0].url
+        delete result.rows[0].visitCount, result.rows[0].createdAt
         res.status(201).send(result.rows[0])
     }catch(err){
         res.status(500).send(err.message)
