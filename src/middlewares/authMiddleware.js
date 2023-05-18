@@ -8,9 +8,8 @@ export async function authValidation(req,res,next){
     if (!token) res.sendStatus(401)
     
     try{
-        // ******************************** alterar **************************
-        // const sessao = await db.collection("sessoes").findOne({ token })
-        // if (!sessao) return res.sendStatus(401) 
+        const sessao = await db.query(`select * from sessions where token=$1;`,[token])
+        if (sessao.rowCount===0) return res.sendStatus(401) 
     
         res.locals.sessao=sessao
     }catch(err){

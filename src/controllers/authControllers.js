@@ -3,7 +3,20 @@ import bcrypt from "bcrypt"
 import { db } from "../db/database.js"
 
 export async function signIn(req, res) {
+    const {email,password}=req.body
 
+    try {
+        const usuario = await db.query(`select * from users where email=$1;`,[email])
+        if (usuario.rowCount===0) return res.status(401).send("email e/ou senha incorretos")
+
+        const senhaCorreta = bcrypt.compareSync(password, usuario.rows[0].password)
+        if (!senhaCorreta) return res.status(401).send("email e/ou senha incorretos")
+
+        const token = uuid()
+        res.status(200).send({token})
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
 
 
 }
