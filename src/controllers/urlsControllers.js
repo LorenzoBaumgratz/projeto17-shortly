@@ -35,3 +35,18 @@ export async function getUrlById(req,res){
         res.status(500).send(err.message)
     }
 }
+
+export async function redirectUserUrl(req,res){
+    const {shortUrl}=req.params
+
+    try{
+        const result=await db.query(`select * from urls where "shortUrl"=$1;`,[shortUrl])
+        if(result.rowCount===0) return res.sendStatus(404)
+
+        const contagemAnterior=result.rowCount[0].visitCount
+        await db.query(`update urls set visitCount=$1 where "shortUrl"=$2;`,[contagemAnterior+1,shortUrl])
+        res.status(301).redirect(result.rows[0].url)
+    }catch(err){
+        res.status(500).send(err.message)
+    }
+}
