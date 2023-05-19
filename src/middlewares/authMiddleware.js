@@ -5,7 +5,7 @@ export async function authValidation(req,res,next){
     const { authorization } = req.headers
 
     const token = authorization?.replace('Bearer ', '')
-    if (!token) res.sendStatus(401)
+    if (!token) return res.sendStatus(401)
     
     try{
         const sessao = await db.query(`select * from sessions where token=$1;`,[token])
