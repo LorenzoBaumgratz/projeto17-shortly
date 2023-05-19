@@ -92,7 +92,7 @@ ALTER SEQUENCE public.urls_id_seq OWNED BY public.urls.id;
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    name integer NOT NULL,
+    name text NOT NULL,
     email text NOT NULL,
     password text NOT NULL,
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL
@@ -233,14 +233,6 @@ ALTER TABLE ONLY public.sessions
 
 ALTER TABLE ONLY public.urls
     ADD CONSTRAINT "urls_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES public.sessions(id);
-
-
---
--- Name: users users_name_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_name_fkey FOREIGN KEY (name) REFERENCES public.users(id);
 
 
 --
