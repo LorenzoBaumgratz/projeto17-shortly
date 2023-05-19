@@ -54,3 +54,21 @@ export async function redirectUserUrl(req,res){
         res.status(500).send(err.message)
     }
 }
+
+export async function deleteUrl(req,res){
+    const {id}=req.params
+
+    try{
+        const sessionId=res.locals.sessao.rows[0].id
+        const existeUrl=await db.query(`select * from urls where id=$1;`,[id])
+        if(existeUrl.rowCount===0) return res.sendStatus(404)
+
+        const result=await db.query(`select urls.*, sessions."userId" from urls join sessions on urls."sessionId"=sessions.id  where urls.id=$1 and sessions.id=$2;`,[id,sessionId])
+        if(result.rowCount===0) return res.sendStatus(401)
+        
+        await db.query(`delete from urls where id=$1;`,[id])
+        res.sendStatus(204)
+    }catch(err){
+        res.status(500).send(err.message)
+    }
+}
