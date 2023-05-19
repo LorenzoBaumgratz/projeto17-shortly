@@ -31,6 +31,8 @@ export async function getUrlById(req,res){
 
         delete result.rows[0].visitCount
         delete result.rows[0].createdAt
+        delete result.rows[0].sessionId
+
 
         res.status(200).send(result.rows[0])
     }catch(err){
