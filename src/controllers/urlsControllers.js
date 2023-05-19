@@ -6,8 +6,9 @@ export async function postShorten(req,res){
     const {url}=req.body
 
     try{
+        const sessionId=res.locals.sessao.rows[0].id
         const random=nanoid()
-        await db.query(`insert into urls ("shortUrl",url) values($1,$2);`,[random,url])
+        await db.query(`insert into urls ("shortUrl",url,"sessionId") values($1,$2,$3);`,[random,url,sessionId])
         const result=await db.query(`select * from urls where url=$1;`,[url])
 
         delete result.rows[0].url
