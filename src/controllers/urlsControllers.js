@@ -47,7 +47,7 @@ export async function redirectUserUrl(req,res){
         const result=await db.query(`select * from urls where "shortUrl"=$1;`,[shortUrl])
         if(result.rowCount===0) return res.sendStatus(404)
 
-        const contagemAnterior=result.rowCount[0].visitCount
+        const contagemAnterior=result.rows[0].visitCount
         await db.query(`update urls set visitCount=$1 where "shortUrl"=$2;`,[contagemAnterior+1,shortUrl])
         res.status(302).redirect(result.rows[0].url)
     }catch(err){
