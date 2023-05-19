@@ -58,6 +58,7 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 CREATE TABLE public.urls (
     id integer NOT NULL,
+    "sessionId" integer NOT NULL,
     "shortUrl" text NOT NULL,
     url text NOT NULL,
     "visitCount" integer DEFAULT 0 NOT NULL,
@@ -91,7 +92,7 @@ ALTER SEQUENCE public.urls_id_seq OWNED BY public.urls.id;
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    name text NOT NULL,
+    name integer NOT NULL,
     email text NOT NULL,
     password text NOT NULL,
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL
@@ -187,14 +188,6 @@ ALTER TABLE ONLY public.sessions
 
 
 --
--- Name: sessions sessions_token_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sessions
-    ADD CONSTRAINT sessions_token_key UNIQUE (token);
-
-
---
 -- Name: urls urls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -211,6 +204,14 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: users users_password_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_password_key UNIQUE (password);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -224,6 +225,22 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users(id);
+
+
+--
+-- Name: urls urls_sessionId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.urls
+    ADD CONSTRAINT "urls_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES public.sessions(id);
+
+
+--
+-- Name: users users_name_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_name_fkey FOREIGN KEY (name) REFERENCES public.users(id);
 
 
 --
