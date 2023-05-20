@@ -10,7 +10,7 @@ export async function getMe(req,res){
         const obj={
             id:result.rows[0].idDoUsuario,
             name:result.rows[0].name,
-            visitCount:sum,
+            visitCount:sum.rows.sum,
             shortenedUrls:result.rows.map(i=>({
                 id: i.idDaUrl,
                 shortUrl:i.shortUrl,
