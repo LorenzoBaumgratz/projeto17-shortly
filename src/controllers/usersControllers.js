@@ -25,7 +25,7 @@ export async function getMe(req,res){
 
 export async function ranking(req,res){
     try{
-        const result=await db.query(`select urls.*,urls.id as "idDaUrl",users.name,users.id as "idDoUsuario",sessions.id from urls left join sessions on urls."sessionId"=sessions.id left join users on sessions."userId"=users.id;`)
+        const result=await db.query(`select sum("visitedCount") as total,count("urls.id") as qnt,urls."visitCount",urls.id as "idDaUrl",users.name,users.id as "idDoUsuario",sessions.id from urls left join sessions on urls."sessionId"=sessions.id left join users on sessions."userId"=users.id group by users.id order by total limit 10;`)
         console.log(result.rows)
         res.sendStatus(200)
     }catch(err){
