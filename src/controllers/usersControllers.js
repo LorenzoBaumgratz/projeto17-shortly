@@ -25,7 +25,8 @@ export async function getMe(req,res){
 
 export async function ranking(req,res){
     try{
-        console.log(await db.query(`select urls.*,urls.id as "idDaUrl",users.name,users.id as "idDoUsuario",sessions.id from urls left join sessions on urls."sessionId"=sessions.id left join users on sessions."userId"=users.id;`))
+        const result=await db.query(`select urls.*,urls.id as "idDaUrl",users.name,users.id as "idDoUsuario",sessions.id from urls left join sessions on urls."sessionId"=sessions.id left join users on sessions."userId"=users.id;`)
+        console.log(result.rows)
         res.sendStatus(200)
     }catch(err){
         res.status(500).send(err.message)
