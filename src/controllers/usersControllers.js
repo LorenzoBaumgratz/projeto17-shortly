@@ -23,3 +23,12 @@ export async function getMe(req,res){
         res.status(500).send(err.message)
     }
 }
+
+export async function ranking(req,res){
+    try{
+        console.log(await db.query(`select urls.*,urls.id as "idDaUrl",users.name,users.id as "idDoUsuario",sessions.id from urls join sessions on urls."sessionId"=sessions.id join users on sessions."userId"=users.id group by "userId";`))
+        res.sendStatus(200)
+    }catch(err){
+        res.status(500).send(err.message)
+    }
+}
