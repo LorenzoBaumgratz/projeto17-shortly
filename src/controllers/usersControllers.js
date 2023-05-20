@@ -6,11 +6,10 @@ export async function getMe(req,res){
 
         const result=await db.query(`select urls.*,urls.id as "idDaUrl",users.name,users.id as "idDoUsuario",sessions.id from urls join sessions on urls."sessionId"=sessions.id join users on sessions."userId"=users.id where sessions.id=$1;`,[sessionId])
         const sum=await db.query(`select sum("visitCount") as soma from urls where "sessionId"=$1;`,[sessionId])
-        console.log("SOMA",sum.rows[0].soma)
         const obj={
             id:result.rows[0].idDoUsuario,
             name:result.rows[0].name,
-            visitCount:sum.rows[0][0],
+            visitCount:sum.rows[0].soma,
             shortenedUrls:result.rows.map(i=>({
                 id: i.idDaUrl,
                 shortUrl:i.shortUrl,
@@ -19,7 +18,7 @@ export async function getMe(req,res){
             }))
         }
         console.log(obj)
-        res.sendStatus(200)
+        res.status(200).send(obj)
     }catch(err){
         res.status(500).send(err.message)
     }
