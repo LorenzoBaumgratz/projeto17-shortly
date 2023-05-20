@@ -17,7 +17,6 @@ export async function getMe(req,res){
                 visitCount:i.visitCount
             }))
         }
-        console.log(obj)
         res.status(200).send(obj)
     }catch(err){
         res.status(500).send(err.message)
@@ -26,7 +25,7 @@ export async function getMe(req,res){
 
 export async function ranking(req,res){
     try{
-        console.log(await db.query(`select urls.*,urls.id as "idDaUrl",users.name,users.id as "idDoUsuario",sessions.id from urls left join sessions on urls."sessionId"=sessions.id left join users on sessions."userId"=users.id group by "userId";`))
+        console.log(await db.query(`select urls.*,urls.id as "idDaUrl",users.name,users.id as "idDoUsuario",sessions.id from urls left join sessions on urls."sessionId"=sessions.id left join users on sessions."userId"=users.id;`))
         res.sendStatus(200)
     }catch(err){
         res.status(500).send(err.message)
