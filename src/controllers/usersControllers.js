@@ -9,7 +9,7 @@ export async function getMe(req,res){
         const obj={
             id:result.rows[0].idDoUsuario,
             name:result.rows[0].name,
-            visitCount:sum.rows[0].soma,
+            visitCount:Number(sum.rows[0].soma),
             shortenedUrls:result.rows.map(i=>({
                 id: i.idDaUrl,
                 shortUrl:i.shortUrl,
