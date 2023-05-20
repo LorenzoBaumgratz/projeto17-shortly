@@ -3,7 +3,7 @@ import auth from "./authRouter.js";
 import urls from "./urlsRouter.js";
 import users from "./usersRouter.js";
 
-const router= Router()
+const router = Router()
 
 router.use(auth)
 router.use(urls)

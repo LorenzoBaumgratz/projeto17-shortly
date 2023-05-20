@@ -6,4 +6,5 @@ const users=Router()
 
 users.get("/users/me",authValidation,getMe)
 users.get("/ranking",ranking)
+
 export default users
