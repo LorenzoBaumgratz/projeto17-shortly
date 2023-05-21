@@ -26,7 +26,7 @@ export async function getMe(req, res) {
 export async function ranking(req, res) {
     try {
         const result = await db.query(`select users.id,users.name,count(urls.url) as "linksCount",sum(urls."visitCount") as "visitCount" from urls join sessions on sessions.id=urls."sessionId" join users on users.id=sessions."userId"
-        group by users.id,users.name order by "visitCount" limit 10;`)
+        group by users.id,users.name order by "visitCount" desc limit 10;`)
         console.log(result.rows)
         res.status(200).send(result.rows)
     } catch (err) {
